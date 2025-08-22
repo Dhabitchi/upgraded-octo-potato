@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 const BOT_TOKEN = "7749843416:AAFgwcAHfcKelpomFb5ibv9JlNWdZavIf70";
 const CHAT_ID = "1122713484";
 
+// endpoint GET
 app.get("/send", async (req, res) => {
   try {
     const msg = req.query.msg || "Pesan kosong dari ESP32";
