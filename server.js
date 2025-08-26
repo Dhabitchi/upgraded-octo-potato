@@ -4,37 +4,28 @@ import fetch from "node-fetch";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Ambil dari environment variable (lebih aman)
-const BOT_TOKEN = process.env.BOT_TOKEN || "ISI_TOKEN_KAMU";
-const CHAT_ID = process.env.CHAT_ID || "ISI_CHAT_ID_KAMU";
+const BOT_TOKEN = process.env.BOT_TOKEN || "7749843416:AAFgwcAHfcKelpomFb5ibv9JlNWdZavIf70";
+const CHAT_ID = process.env.CHAT_ID || "1122713484";
 
-app.use(express.json());
-
-// Endpoint root (cek server jalan)
 app.get("/", (req, res) => {
-  res.send("✅ Server Relay Telegram aktif");
+  res.send("✅ Server aktif");
 });
 
-// Endpoint GET untuk kirim pesan
 app.get("/send", async (req, res) => {
   try {
-    const msg = req.query.msg || "Pesan kosong dari ESP32";
+    const msg = req.query.msg || "⚠️ Bahaya terdeteksi!";
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`;
 
     const response = await fetch(url);
     const data = await response.json();
 
-    if (!data.ok) {
-      return res.status(400).json({ success: false, error: data });
-    }
+    if (!data.ok) return res.status(400).json({ success: false, error: data });
 
     res.json({ success: true, data });
   } catch (err) {
-    console.error("❌ Error kirim ke Telegram:", err.message);
+    console.error(err);
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Relay server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server jalan di port ${PORT}`));
